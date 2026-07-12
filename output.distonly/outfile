@@ -1,0 +1,35 @@
+ Average number of neighbours=   0.0000000000000000     
+ Average for an A atom=   0.0000000000000000     
+ Average for an B atom=   0.0000000000000000     
+ Number of cage-breaking steps=          99
+ Number of cage-breaking atoms=         789
+ Number of cage-breaks Li=         787
+ Number of cage-breaks Cl=           2
+ Number of productive CBs Li=         486
+ Numver of productive CBs Cl=           2
+ Number of reverse steps,type1=          85
+ Number of reverse steps,type2=           2
+ Number of reverse atoms,type1=         235
+ Number of reverse atoms,type2=          32
+ Number of steps type1 + type2=          25
+ Total r2:  irreversible steps=   2207.5749277404948     
+ Total r2: irrev, only A atoms=   2204.9147146625232     
+ Total r2: irrev, only B atoms=   2.6602130779714352     
+ Total r2:           all steps=   3176.5020656939196     
+ Total r2:   all, only A atoms=   3173.8418526159480     
+ Total r2:   all, only B atoms=   2.6602130779714352     
+ Correlation by reversal numbers=  -189.00000000000000     
+ Correlation of B by reversal numbers=   0.0000000000000000     
+ REVERSALS - A only
+ length: number
+           1         267
+           2         122
+           3          62
+           4          34
+           5          23
+           6          15
+           7          10
+           8           5
+           9           3
+          10           1
+          11           1
