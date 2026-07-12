@@ -41,7 +41,7 @@ NCUTA and NCUTB are the numbers of neighbours which must change for an atom to c
 - *SETUP* contains information about the number of trajectory configurations. This is used to allocate array dimensions.<br/>
 
 ## Execution
-A trajectory data file _pathcoords.1_ containing all the (minimised) coordinates of the system is required. This file is data in the form x1 y1 z1 with no headers. The program uses 'unwrapped' coordinates*.<br/>
+A trajectory data file _pathcoords.1_ containing all the (minimised) coordinates of the system is required. Once unzipped, this file is data in the form x1 y1 z1 with no headers. The program uses 'unwrapped' coordinates*.<br/>
 System details are added in the header file, system.h, this file should be edited before compilation. EL_Cage currently only uses two types of atom, A and B (although multiple different atoms can be grouped together as A and/or B).<br/>
 It is the _criteria.h_ file that determines how ion hops are identified. Ion hops for both A and B species can be identified, using A, B or A and B neighbours as a reference. Once this file has been updated, the code can be compiled and run as follows:
 ```bash
