@@ -38,18 +38,45 @@ NCUTA and NCUTB are the numbers of neighbours which must change for an atom to c
 
 - *system.h* contains the various system parameters, including box lengths for the periodic system and the number of atoms of each type.<br/>
 
-- *SETUP* contains information about the number of trajectory configurations. This is used to allocate array dimensions.<br />
+- *SETUP* contains information about the number of trajectory configurations. This is used to allocate array dimensions.<br/>
 
 ## Execution
-A trajectory data file containing all the (minimised) coordinates of the system is required. This file is data in the form x1 y1 z1 with no headers. The program uses 'unwrapped' coordinates*.<br/>
-System details are added in the header file, system.h, this file should be edited before compilation.
+A trajectory data file _pathcoords.1_ containing all the (minimised) coordinates of the system is required. This file is data in the form x1 y1 z1 with no headers. The program uses 'unwrapped' coordinates*.<br/>
+System details are added in the header file, system.h, this file should be edited before compilation. EL_Cage currently only uses two types of atom, A and B (although multiple different atoms can be grouped together as A and/or B).<br/>
+It is the _criteria.h_ file that determines how ion hops are identified. Ion hops for both A and B species can be identified, using A, B or A and B neighbours as a reference. Once this file has been updated, the code can be compiled and run as follows:
+```bash
+make
+./CageBreak >outfile 
+```
 
-
-*_The additional removebox.f program can be used to convert data into this format, from LAMMPS output. It is common practise in MD simulations to reset the position of an atom that leaves the simulation box, so that it re-enters the same box through the opposite face. Although this symmetry operation leaves the system unchanged, the cage breaking code does not account for these sudden apparent jumps in position. To avoid identifying spurious cage breaks, we first run the removebox program to revert the positions of the atoms. Any atom moving by more than half the side length of the periodic box in a particular configuration is replaced by the periodic image which is nearest to its previous position.<br/> 
-Coordinates are read from standard input, and written to standard output. Removebox.f also provides three files _boxlengths_, _nrecs_ and _ionnumbers_, with information about box lengths, the number of records in the trajectory and the numbers of different ions, in the format required for the main EL-Cage code. These lines can be copied into system.h line 1, SETUP line 2 and system.h line 3 respectively.<br/> 
+*_The additional removebox.f program can be used to convert data into this format, from LAMMPS output - one file containing the coordinates of each configuration, with 9 header lines including timestep, number of atoms and boxlengths. Coordinates are read from oldfile.xyz, and written to newfile.xyz. Using the example data this code can be compiled and run as follows:_
+```bash
+gfortran -o removebox.o removebox.f
+./removebox.o 
+```
+_newfile.xyz can be copied to the EL-Cage input file, pathcoords.1 <br/>
+removebox.f also provides three files _boxlengths_, _nrecs_ and _ionnumbers_, with information about periodic box lengths, the number of records in the trajectory and the numbers of different ions, in the format required for the main EL-Cage code. These lines can be copied into system.h line 1, SETUP line 2 and system.h line 3 respectively.<br/> 
 The version of removebox.f here only extracts the first two types of ions/atoms, e.g. For Li3OCl, the Li and O ions remain but the Cl ions are removed._ 
 
+## Output Files
 
+The main information about the ion hops is contained within 3 files:<br/>
+
+- *nnchange.1* contains information about the ion hops identified through nearest neighbour changes. The data are: step number, atom number, reversal count (ony relevant for simple systems), number of neighbour changes, neighbours that changed (a minus sign indicates a lost neighbour, a positive value is a neighbour gained).
+- *cbposition.1* contains two lines for each ion hop event, the starting (line 1) and end (line 2) coordinates for each hop. The data are: step number, atom number, x, y, z.
+- *rjump.1* contains the hopping distances for each hop. The data are: hop distance, ion number.
+
+The _outfile_ contains a summary of the analysis including the total square diplacement calculated by summing hopping events (Total r2: all steps) and an estimate of the total square displacement when back-and-forth events are excluded (Total r2: irreversible steps).
+
+Example output is shown in the 'output' subdirectory.
+
+## Output without a neighbour analysis
+
+The EL_Cage code can also be used to identify ion hops by the distance moved.<br /> 
+The criterion used is DISTVAA in the criteria.h file.<br/> 
+This method is used if ABSDIST is set to true in switch.h.<br/>
+See the required switch.h file and output for this method in the subdirectory 'output.distonly'.<br/>
+The simple distance criterion can work well in ordered systems.
 
 
 ## References
