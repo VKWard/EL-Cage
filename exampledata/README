@@ -1,1 +1,9 @@
-jk
+The additional removebox.f program can be used to convert data into this format, from LAMMPS output - one file containing the coordinates of each configuration, with 9 header lines including timestep, number of atoms and boxlengths. Coordinates are read from oldfile.xyz, and written to newfile.xyz. Using the example data this code can be compiled and run as follows:
+
+gfortran -o removebox.o removebox.f
+./removebox.o 
+
+newfile.xyz can be copied to the EL-Cage input file, pathcoords.1, in the parent directory
+removebox.f also provides three files _boxlengths_, _nrecs_ and _ionnumbers_, with information about periodic box lengths, the number of records in the trajectory and the numbers of different ions, in the format required for the main EL-Cage code. These lines can be copied into system.h line 1, SETUP line 2 and system.h line 3 respectively. 
+The version of removebox.f here only extracts the first two types of ions/atoms, e.g. For Li3OCl, the Li and O ions remain but the Cl ions are removed. 
+
